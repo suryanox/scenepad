@@ -24,7 +24,7 @@ Turn any story, flow, or scenario into a clean SVG scene — stick figures, spee
 
 **Claude Code**
 ```bash
-git clone https://github.com/your-handle/scenepad ~/.claude/skills/scenepad
+git clone https://github.com/suryanox/scenepad ~/.claude/skills/scenepad
 ```
 Restart Claude Code. Type `/scenepad` to trigger.
 

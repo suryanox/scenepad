@@ -39,12 +39,14 @@ Opens in any browser. No dependencies. Screenshot-ready.
 4. Choose inline visuals — when an actor is coding, deploying, ideating,
    or demoing, use the right visual block instead of just text
 5. Build the HTML — single file, no external deps
-6. Save to scenepad-out/<slug>.html
-7. Open in default browser — detect OS and run:
+6. Create output directory if needed: mkdir -p scenepad-out
+7. Save to scenepad-out/<slug>.html
+8. Open in default browser — detect OS and run:
      macOS:   open scenepad-out/<slug>.html
      Linux:   xdg-open scenepad-out/<slug>.html
      Windows: start scenepad-out/<slug>.html
-8. Print: ✓ scenepad-out/name.html — opened in browser
+   If command fails, print path instead of failing silently
+9. Print: ✓ scenepad-out/name.html — opened in browser
 
 ## Scene type classifier
 
@@ -84,6 +86,13 @@ Extract from natural language:
 - What they do → pose, expression, accessory
 - What they show → inline visual block type
 
+Actor identity resolution:
+  "customer", "user", "person" → same actor if no context suggests otherwise
+  "engineer", "dev", "developer" → same actor unless multiple mentioned
+  Named actors (Alice, Bob) → always unique
+  Role + qualifier (senior PM, lead eng) → unique from unqualified role
+  Pronouns refer to most recent matching actor
+
 Map roles to accessories:
   support agent     → headset
   engineer / ops    → hard hat
@@ -99,7 +108,12 @@ Map roles to accessories:
 - SVG viewBox width always 640
 - Panels stacked vertically, never side by side
 - File saved to scenepad-out/<slug>.html in cwd
-- Slug = first 4 words of story, lowercase, hyphens
+- Slug generation:
+  • Take first 4 words from story (or fewer if < 4 words)
+  • Lowercase, replace spaces with hyphens
+  • Remove special chars (keep only a-z, 0-9, hyphens)
+  • Max 40 chars, truncate if needed
+  • Example: "Customer calls support, support escalates" → "customer-calls-support-support"
 
 ## Example invocations
 

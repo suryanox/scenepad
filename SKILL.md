@@ -40,7 +40,11 @@ Opens in any browser. No dependencies. Screenshot-ready.
    or demoing, use the right visual block instead of just text
 5. Build the HTML — single file, no external deps
 6. Save to scenepad-out/<slug>.html
-7. Print: ✓ scenepad-out/name.html — N actors, N panels
+7. Open in default browser — detect OS and run:
+     macOS:   open scenepad-out/<slug>.html
+     Linux:   xdg-open scenepad-out/<slug>.html
+     Windows: start scenepad-out/<slug>.html
+8. Print: ✓ scenepad-out/name.html — opened in browser
 
 ## Scene type classifier
 

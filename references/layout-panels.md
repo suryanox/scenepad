@@ -37,7 +37,7 @@ Escalation / handoff arrow (horizontal within a panel):
 Layout: 2–3 panels, each showing one exchange.
 Actors face each other (left actor arm points right, right actor arm points left).
 Bubble alternates: panel 1 left actor speaks, panel 2 right actor responds.
-Use standard white bubbles. Inverted bubble for climax panel only.
+Use standard white bubbles. Inverted bubble for THE climax line only (max one per entire scene).
 
 ### Escalation / handoff (3+ actors, thing passes along chain)
 Layout: 3 panels, each panel shows the handoff to the next person.
@@ -52,7 +52,8 @@ Panel 2: tension — one actor with arms out (explaining), other with arms cross
          Arms crossed pose: both arms diagonal crossing body centerline
          left arm: (cx, cy+32) → (cx+20, cy+52)
          right arm: (cx, cy+32) → (cx-20, cy+52)
-Panel 3: resolution — both actors happy, inverted bubble for the agreed outcome
+Panel 3: resolution — both actors happy, use inverted bubble ONLY if this is
+         the single most important moment in the entire scene
          Optional handshake: arrows pointing toward each other between actors
 
 ### Ideation / brainstorming (one or more people generating ideas)
@@ -88,17 +89,19 @@ Leader line: 0.5px dashed stroke=#cccccc from actor arm tip to code block edge.
 ### Announcement / broadcast (one to many)
 Layout: 1–2 panels.
 Single actor centered or left, 2–3 receiver actors right.
-Sender has inverted bubble (peak moment — this is the announcement).
+Sender bubble: use inverted ONLY if this announcement is the peak moment of the entire scene.
 Receivers have reaction bubbles or expressions only (no bubbles = silent reaction).
 
 ## What determines panel count
 
-| Story beats | Panels |
-|-------------|--------|
-| 1           | 1      |
-| 2–3         | 2      |
-| 3–5         | 3      |
-| 5–7         | 4      |
-| 7+          | split into 2 scenes, each max 4 panels |
+| Story beats | Panels | How to handle                               |
+|-------------|--------|---------------------------------------------|
+| 1           | 1      | Single panel                                |
+| 2–3         | 2      | One beat per panel or combine               |
+| 3–5         | 3      | Condense similar beats                      |
+| 5–7         | 4      | Max 4 panels, combine beats aggressively    |
+| 7+          | 4      | Truncate to key beats: setup, conflict, climax, resolution |
 
 Always prefer fewer panels. Combine beats that happen simultaneously.
+For 7+ beat stories, identify the 4 most critical beats and focus on those.
+Do NOT create multiple files — consolidate into one compelling 4-panel scene.

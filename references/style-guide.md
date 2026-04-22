@@ -66,7 +66,7 @@ No external fonts. No Google Fonts. No CDN.
 
 ## Spacing (4px grid)
 
-- Panel gap (vertical, between stacked panels): 20px
+- Panel gap (vertical, between stacked panels): 40px
 - Figure cy (head center) from panel top: 130px minimum
 - Bubble bottom to head top gap: 8px exactly
 - Bubble text padding: 14px horizontal, 10px vertical per line
@@ -75,11 +75,11 @@ No external fonts. No Google Fonts. No CDN.
 
 ## ViewBox
 
-Width always 640. Height = number of panels × 240 + (panels-1) × 20.
+Width always 640. Height = (panels × 260) - 40.
 
-  1 panel:  0 0 640 240
-  2 panels: 0 0 640 500
-  3 panels: 0 0 640 760
+  1 panel:  0 0 640 220
+  2 panels: 0 0 640 480
+  3 panels: 0 0 640 740
 
 Each panel occupies a 640 × 220 rect with rx=12.
 Panel y positions: panel N starts at (N-1) × 260.

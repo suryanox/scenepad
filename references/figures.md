@@ -63,6 +63,27 @@ Ears, neck, hands all use same skin hex as face.
 
 ---
 
+## Clothing color palette
+
+Each actor needs unique clothing colors. Pick one set per actor from the table below.
+Shirt = lighter color, Pants = darker color from the same set.
+
+| Set | Name          | Shirt hex | Pants hex | Notes                        |
+|-----|---------------|-----------|-----------|------------------------------|
+| C1  | slate         | #B0BEC5   | #607D8B   | neutral, professional        |
+| C2  | sage          | #C5E1A5   | #7CB342   | calm, thoughtful             |
+| C3  | clay          | #BCAAA4   | #795548   | warm, earthy                 |
+| C4  | lavender      | #D1C4E9   | #7E57C2   | creative, executive          |
+| C5  | coral         | #FFCCBC   | #FF7043   | energetic, customer-facing   |
+| C6  | steel         | #CFD8DC   | #546E7A   | technical, ops               |
+| C7  | mint          | #C8E6C9   | #66BB6A   | positive, support            |
+| C8  | wheat         | #F0E5D8   | #A1887F   | approachable, user           |
+
+Never reuse a color set within the same scene. Vary across actors.
+If scene has 9+ actors, colors may repeat but avoid adjacent reuse.
+
+---
+
 ## Hair styles
 
 | ID | Style         | How to draw                                                        |

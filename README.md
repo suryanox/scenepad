@@ -35,18 +35,6 @@ Restart Claude Code. Type `/scenepad` to trigger.
 ```
 ---
 
-## Examples
-
-Open `examples/index.html` in your browser to see all examples.
-
-| File | Scene |
-|---|---|
-| support-escalation.html | Customer → support → engineer hotfix |
-| api-handshake.html | Token request → 401 → retry → 200 OK |
-| team-decision.html | PM vs engineer → compromise |
-
----
-
 ## Output
 
 Every run creates one file:

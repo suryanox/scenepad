@@ -1,81 +1,117 @@
 # scenepad figure primitives
 
-All figures: stroke only, never filled. Stroke 2px, color #1a1a1a.
-Position figures by CENTER X (cx) and HEAD TOP Y (ty).
-Head radius = 16px. Total figure height ~130px.
+All figures: stroke only, never filled. Stroke 2px, ink #1a1a1a.
+Position by head CENTER X (cx) and head CENTER Y (cy).
+Head radius = 17px. Chin y = cy + 17. Feet y = cy + 112.
 
-## Base figure
+## Base figure (cx, cy)
 
-cx = center x, ty = top y of head circle
+  head:       circle cx=cx cy=cy r=17 fill=none stroke=#1a1a1a stroke-width=2
+  body:       line (cx, cy+17) → (cx, cy+65)
+  left arm:   line (cx, cy+32) → (cx-28, cy+52)
+  right arm:  line (cx, cy+32) → (cx+28, cy+52)
+  left leg:   line (cx, cy+65) → (cx-18, cy+95)
+  right leg:  line (cx, cy+65) → (cx+18, cy+95)
 
-  head:       circle cx cy=ty+16 r=16
-  body:       line (cx, ty+32) to (cx, ty+82)
-  left arm:   line (cx, ty+46) to (cx-22, ty+66)
-  right arm:  line (cx, ty+46) to (cx+22, ty+66)
-  left leg:   line (cx, ty+82) to (cx-16, ty+115)
-  right leg:  line (cx, ty+82) to (cx+16, ty+115)
+Actor label: text cx, cy+112  text-anchor=middle font-size=10 fill=#aaaaaa
 
-## Face expressions
+## Expressions
+
+All eye positions: left=(cx-6, cy-4) right=(cx+6, cy-4) r=2.2 fill=#1a1a1a
 
 neutral:
-  eyes: circles at (cx-6, ty+13) and (cx+6, ty+13) r=2 filled
-  mouth: horizontal line (cx-5, ty+22) to (cx+5, ty+22)
+  mouth: line (cx-6, cy+8) → (cx+6, cy+8) stroke-width=1.8
 
 happy:
-  eyes: same as neutral
-  mouth: arc up Q cx ty+27
+  mouth: path M cx-7 cy+7 Q cx cy+14 cx+7 cy+7
+         fill=none stroke=#1a1a1a stroke-width=1.8 stroke-linecap=round
 
 worried:
-  eyes: same as neutral
-  mouth: arc down Q cx ty+20
+  brows:  path M cx-9 cy-9 Q cx-6 cy-11 cx-3 cy-9  (left, angled in)
+          path M cx+3 cy-9 Q cx+6 cy-11 cx+9 cy-9  (right, angled in)
+          fill=none stroke=#1a1a1a stroke-width=1.3 stroke-linecap=round
+  mouth: path M cx-6 cy+9 Q cx cy+6 cx+6 cy+9
+         fill=none stroke=#1a1a1a stroke-width=1.5 stroke-linecap=round
 
 surprised:
-  eyes: circles r=2.5
-  mouth: small ellipse rx=4 ry=5
+  eyes: r=2.8 (slightly larger)
+  mouth: ellipse cx=cx cy=cy+9 rx=4 ry=5
+         fill=none stroke=#1a1a1a stroke-width=1.5
 
 determined:
-  eyes: same as neutral
-  mouth: bold line (cx-8, ty+21) to (cx+8, ty+21) stroke-width=2
+  brows: line (cx-9, cy-9) → (cx-3, cy-11)  (left, angled down-in)
+         line (cx+3, cy-11) → (cx+9, cy-9)  (right, angled down-in)
+         stroke-width=1.5 stroke-linecap=round
+  mouth: line (cx-7, cy+8) → (cx+7, cy+8) stroke-width=2.2
 
-## Pose variants
+celebrating:
+  eyes: same as happy
+  mouth: same as happy but wider Q cx cy+16
 
-pointing (raise right arm):
-  right arm: line (cx, ty+46) to (cx+30, ty+30)
+## Poses (arm overrides)
 
-explaining / shrugging (both arms out):
-  left arm:  line (cx, ty+46) to (cx-30, ty+40)
-  right arm: line (cx, ty+46) to (cx+30, ty+40)
+default — arms angled down:
+  left:  (cx, cy+32) → (cx-28, cy+52)
+  right: (cx, cy+32) → (cx+28, cy+52)
 
-typing / at laptop:
-  left arm:  line (cx, ty+46) to (cx-18, ty+62)
-  right arm: line (cx, ty+46) to (cx+18, ty+62)
-  laptop:    rect x=cx-22 y=ty+62 w=44 h=28 rx=3
-  base:      line (cx-26, ty+90) to (cx+26, ty+90)
+pointing right:
+  right: (cx, cy+32) → (cx+36, cy+18)
 
-on phone (right arm up to ear):
-  left arm:  line (cx, ty+46) to (cx-22, ty+66)
-  right arm: line (cx, ty+46) to (cx+16, ty+30)
-  phone:     rect x=cx+14 y=ty+18 w=10 h=18 rx=2
+pointing left:
+  left:  (cx, cy+32) → (cx-36, cy+18)
 
-## Accessories (role identifiers)
+arms out / explaining / shrugging:
+  left:  (cx, cy+32) → (cx-36, cy+30)
+  right: (cx, cy+32) → (cx+36, cy+30)
 
-headset (support agent):
-  arc over head from (cx-16, ty+14) through top to (cx+16, ty+14)
-  ear pads: two small rects each side
+arm raised / celebrating:
+  right: (cx, cy+32) → (cx+28, cy+10)
 
-hard hat (engineer / ops):
-  filled path across top of head, flat brim line
+typing at laptop:
+  left:  (cx, cy+32) → (cx-22, cy+52)
+  right: (cx, cy+32) → (cx+22, cy+52)
+  laptop rect: x=cx-28 y=cy+52 w=56 h=32 rx=4 fill=none stroke=#1a1a1a stroke-width=1.5
+  base line:   (cx-32, cy+84) → (cx+32, cy+84)
+  screen text: optional 8px monospace centered in laptop
 
-crown (executive / decision maker):
-  zigzag path above head, stroke only
+on phone (right hand to ear):
+  left:  (cx, cy+32) → (cx-28, cy+52)
+  right: (cx, cy+32) → (cx+18, cy+14)
+  phone rect: x=cx+16 y=cy+4 w=10 h=18 rx=2 fill=none stroke=#1a1a1a stroke-width=1.5
 
-## Positioning guide
+## Accessories (role identifiers, drawn above head)
 
-| Actors | cx values (% of panel width W) |
-|--------|--------------------------------|
-| 1      | 0.50 W                         |
-| 2      | 0.28 W, 0.72 W                 |
-| 3      | 0.18 W, 0.50 W, 0.82 W         |
-| 4      | 0.14 W, 0.38 W, 0.62 W, 0.86 W|
+headset (support / customer service):
+  arc:  path M cx-18 cy Q cx-18 cy-20 cx cy-20 Q cx+18 cy-20 cx+18 cy
+        fill=none stroke=#1a1a1a stroke-width=1.8
+  left pad:  rect x=cx-22 y=cy-4 w=7 h=10 rx=3 fill=none stroke=#1a1a1a stroke-width=1.8
+  right pad: rect x=cx+15 y=cy-4 w=7 h=10 rx=3 fill=none stroke=#1a1a1a stroke-width=1.8
 
-Always place figures at ty=50 from panel top to leave room for bubble above.
+hard hat (engineer / ops / builder):
+  dome: path M cx-20 cy Q cx-18 cy-20 cx cy-20 Q cx+18 cy-20 cx+20 cy
+        fill=#1a1a1a stroke=none
+  brim: line (cx-23, cy) → (cx+23, cy) stroke=#1a1a1a stroke-width=2.5
+
+crown (executive / decision-maker / CEO):
+  path: M cx-16 cy-2 L cx-16 cy-14 L cx-8 cy-8 L cx cy-14
+        L cx+8 cy-8 L cx+16 cy-14 L cx+16 cy-2 Z
+  fill=none stroke=#1a1a1a stroke-width=1.5
+
+glasses (analyst / researcher):
+  left lens:  circle cx=cx-7 cy=cy r=6 fill=none stroke=#1a1a1a stroke-width=1.2
+  right lens: circle cx=cx+7 cy=cy r=6 fill=none stroke=#1a1a1a stroke-width=1.2
+  bridge:     line (cx-1, cy) → (cx+1, cy) stroke-width=1.2
+  left arm:   line (cx-13, cy) → (cx-20, cy+2) stroke-width=1.2
+  right arm:  line (cx+13, cy) → (cx+20, cy+2) stroke-width=1.2
+
+## Horizontal positioning by actor count (panel width = 640)
+
+| Actors | cx values                        |
+|--------|----------------------------------|
+| 1      | 320                              |
+| 2      | 160, 480                         |
+| 3      | 110, 320, 530                    |
+| 4      | 90, 250, 390, 550                |
+
+cy (head center) = panel_top + 130 always.
+This leaves ~110px above for bubbles and ~110px below for legs + label.

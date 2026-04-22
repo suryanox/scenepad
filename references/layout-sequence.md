@@ -1,66 +1,92 @@
 # scenepad sequence layout
 
-Use for: API calls, service interactions, technical flows, system handshakes.
+Use for: API calls, service chains, auth flows, database queries,
+webhook pipelines, retry loops — any story where the actors are
+systems not people, and time order matters more than emotion.
 
 ## Structure
 
-Actors appear as vertical swimlanes.
-Time flows top to bottom.
+Actors as vertical swimlanes. Time flows top to bottom.
 Messages are horizontal arrows between lanes.
+Width always 640. Lane count determines spacing.
 
-## ViewBox
+## ViewBox height
 
-  width:  680 always
-  height: (number of actors * 120) + (number of messages * 60) + 80
-  minimum height: 300
+  base:          120px (headers + top padding)
+  per message:   60px
+  bottom:        40px
 
-## Swimlane columns
+  total = 120 + (message_count × 60) + 40
 
-For N actors, divide the safe width (640px, x=20 to x=660) equally.
+## Lane positions (cx) for N actors
 
-  lane center x for N actors:
-    1 actor:  340
-    2 actors: 187, 493
-    3 actors: 140, 340, 540
-    4 actors: 113, 264, 416, 567
+| N | cx values                              |
+|---|----------------------------------------|
+| 2 | 160, 480                               |
+| 3 | 120, 320, 520                          |
+| 4 | 100, 240, 400, 540                     |
 
-## Actor headers (top of each lane)
+## Actor header boxes
 
-  rect: width=100 height=36 rx=6 centered on lane x, y=30
+  rect: width=110 height=36 rx=6 centered on lane cx, y=30
         fill=#ffffff stroke=#1a1a1a stroke-width=1.5
-  text: actor name, 11px medium, centered in rect
-  lifeline: dashed vertical line from rect bottom to scene bottom
-            x = lane center, stroke=#888888 stroke-width=1 stroke-dasharray=4 3
+  text: actor name 11px font-weight=500 fill=#1a1a1a centered in rect
 
-## Messages (horizontal arrows)
+  lifeline: dashed line from rect bottom to scene bottom
+            x=cx stroke=#cccccc stroke-width=1 stroke-dasharray=4 3
 
-Each message between two actors:
-  y position: starts at y=100, increments by 60 per message
-  line: from sender lane x to receiver lane x at message y
-        stroke=#1a1a1a stroke-width=1.5 marker-end=arrow
-  label: 10px centered above the line, fill=#1a1a1a
-  response arrow: same but dashed stroke-dasharray=5 3, label below line
+## Messages
 
-## Activation bars (optional, shows processing time)
+First message y = 110. Each subsequent message y += 60.
 
-When an actor is actively doing something:
-  narrow rect: width=8 centered on lifeline
-               y from when message received to when response sent
-               fill=#f5f5f5 stroke=#1a1a1a stroke-width=1
+Request arrow (left to right or right to left):
+  line x1=sender_cx y1=msg_y x2=receiver_cx y2=msg_y
+  stroke=#1a1a1a stroke-width=1.5 marker-end=arrow
 
-## Notes / annotations (optional)
+Response arrow (dashed, return direction):
+  same but stroke-dasharray=5 3
 
-Inline note for error states, retries, timeouts:
-  rect: rx=4 fill=#f5f5f5 stroke=#888888 stroke-width=0.5 stroke-dasharray=3 2
-  text: 10px muted, inside rect
-  position: to the right of the relevant arrow
+Message label (above line):
+  text x=midpoint_x y=msg_y-8 text-anchor=middle font-size=10 fill=#1a1a1a
 
-## Self-message (actor calls itself, retry loop)
+Subtext (below line, e.g. payload or status):
+  text x=midpoint_x y=msg_y+16 text-anchor=middle font-size=9 fill=#888888
 
-  curved path from lane x, looping right and back
-  label to the right of the loop
-  use for: retry, internal processing, queue
+## Activation bar (shows actor is processing)
+
+When an actor is doing work between receiving and responding:
+  rect: width=8 centered on cx
+        y from receive_y to respond_y
+        fill=#f5f5f5 stroke=#e0e0e0 stroke-width=1
+
+## Annotation notes
+
+For error states, retries, timeouts, conditions:
+  rect: rx=4 fill=#f5f5f5 stroke=#cccccc stroke-width=0.5 stroke-dasharray=3 2
+        width ~120px positioned to the right of the relevant arrow
+  text: 9.5px fill=#888888
+
+## Self-message (retry, internal loop)
+
+  path: M cx msg_y Q cx+50 msg_y cx+50 msg_y+30 Q cx+50 msg_y+60 cx msg_y+60
+        fill=none stroke=#1a1a1a stroke-width=1.5 marker-end=arrow
+  label: to the right of the loop, 9.5px fill=#888888
+
+## Inline visual blocks in sequence scenes
+
+Code / payload block (attached to a message):
+  same code block from bubbles.md but placed below the message line
+  connected with a short vertical dashed leader from message midpoint
+  width 200px max, float to side that has more space
+
+Status badge (for HTTP status, success/fail):
+  pill shape: rect rx=10 height=18 width=auto
+  2xx: fill=#e8f5e9 stroke=#28c840 stroke-width=0.5 text fill=#1a7a1a
+  4xx: fill=#fff3e0 stroke=#febc2e stroke-width=0.5 text fill=#7a4f00
+  5xx: fill=#ffebee stroke=#ff5f57 stroke-width=0.5 text fill=#7a0000
+  text: 9px font-family=monospace centered in pill
 
 ## Caption
 
-  x=340 y=(viewBox height - 14) text-anchor=middle 13px medium fill=#1a1a1a
+  x=320 y=viewBox_height-14 text-anchor=middle
+  font-size=13 font-weight=500 fill=#1a1a1a

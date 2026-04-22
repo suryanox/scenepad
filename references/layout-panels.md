@@ -1,66 +1,104 @@
 # scenepad panel layout
 
-Use for: people talking, narrative scenes, team interactions, user flows.
+## Panel geometry
 
-## Single panel (680 x 280)
+Each panel is a stacked row. Width always 640. Height 220. rx=12.
+Panel N top y = (N-1) × 260.   (220px tall + 40px gap)
 
-One scene, one moment. Use when the story has one key interaction.
+  panel rect: x=0 y=panel_top width=640 height=220 rx=12
+              fill=#fafafa stroke=#e8e8e8 stroke-width=1
 
-  viewBox: 0 0 680 280
-  panel rect: x=20 y=20 width=640 height=240 rx=6
-  panel number: x=340 y=40 text-anchor=middle 10px monospace muted
-  figures: centered inside panel, ty=60
-  caption: x=340 y=268 text-anchor=middle 13px medium ink
+  panel number: x=320 y=panel_top+18 text-anchor=middle
+                font-size=9 font-family=monospace fill=#cccccc letter-spacing=2
 
-## Two panels (680 x 280, split horizontal)
+Figure head center: cy = panel_top + 130
 
-Two moments side by side. Most common layout.
+ViewBox height = (n_panels × 260) - 40   (no trailing gap)
+  1 panel  → 220
+  2 panels → 480
+  3 panels → 740
+  4 panels → 1000
 
-  viewBox: 0 0 680 280
-  panel 1: x=20  y=20 width=314 height=240 rx=6
-  panel 2: x=346 y=20 width=314 height=240 rx=6
-  gap: 12px between panels
-  figures inside each panel: use panel-local coordinates
-  caption: x=340 y=268 text-anchor=middle 13px medium ink
+## Connectors between panels
 
-## Three panels (680 x 280, split horizontal)
+Vertical connector between panel N and panel N+1:
+  dashed line x=320 from panel_N_bottom+4 to panel_N+1_top-4
+  stroke=#cccccc stroke-width=1 stroke-dasharray=3 2
 
-Three moments. Classic comic strip.
+Escalation / handoff arrow (horizontal within a panel):
+  dashed line between two actors at cy level
+  stroke=#1a1a1a stroke-width=1.2 stroke-dasharray=5 3
+  marker-end arrow
+  label above line: 9.5px fill=#aaaaaa text-anchor=middle
 
-  viewBox: 0 0 680 280
-  panel 1: x=20  y=20 width=198 height=240 rx=6
-  panel 2: x=230 y=20 width=198 height=240 rx=6
-  panel 3: x=440 y=20 width=220 height=240 rx=6
-  gap: 12px between panels
+## Scene types and how to render each
 
-## Four panels (680 x 560, 2x2 grid)
+### Conversation (2 actors talking back and forth)
+Layout: 2–3 panels, each showing one exchange.
+Actors face each other (left actor arm points right, right actor arm points left).
+Bubble alternates: panel 1 left actor speaks, panel 2 right actor responds.
+Use standard white bubbles. Inverted bubble for climax panel only.
 
-Two rows of two. For longer stories.
+### Escalation / handoff (3+ actors, thing passes along chain)
+Layout: 3 panels, each panel shows the handoff to the next person.
+In panel N: actor N speaks (bubble), points toward actor N+1.
+Dashed escalation arrow between them labeled with what is passed.
+Actor N+1 receives (neutral or determined face).
 
-  viewBox: 0 0 680 560
-  panel 1: x=20  y=20  width=314 height=240 rx=6
-  panel 2: x=346 y=20  width=314 height=240 rx=6
-  panel 3: x=20  y=292 width=314 height=240 rx=6
-  panel 4: x=346 y=292 width=314 height=240 rx=6
-  caption: x=340 y=548 text-anchor=middle 13px medium ink
+### Conflict → resolution (disagreement then agreement)
+Layout: 3 panels.
+Panel 1: both actors with conflicting bubbles (worried + determined faces)
+Panel 2: tension — one actor with arms out (explaining), other with arms crossed
+         Arms crossed pose: both arms diagonal crossing body centerline
+         left arm: (cx, cy+32) → (cx+20, cy+52)
+         right arm: (cx, cy+32) → (cx-20, cy+52)
+Panel 3: resolution — both actors happy, inverted bubble for the agreed outcome
+         Optional handshake: arrows pointing toward each other between actors
 
-## Panel number placement
+### Ideation / brainstorming (one or more people generating ideas)
+Layout: 1–2 panels.
+Replace or supplement speech bubbles with sticky note blocks (see bubbles.md).
+Multiple stickies can float above/around an actor — max 3 per actor.
+Stagger heights: first sticky standard position, second 10px higher and offset 20px right.
+Actor pose: arms out / explaining or arm raised.
+Use thought bubbles for uncertain ideas, stickies for concrete proposals.
 
-Always top-center inside panel, 8px from panel top.
-Format: zero-padded two digits: 01, 02, 03
-Style: 10px monospace fill=muted letter-spacing=1
+### Presentation / demo (one actor shows something to others)
+Layout: 2 panels.
+Panel 1: presenter actor on left with whiteboard/diagram block beside them.
+         Other actors on right facing left (arms slightly toward presenter).
+Panel 2: reaction — audience actors with speech or thought bubbles responding.
+Whiteboard block: rect fill=#fafafa stroke=#e0e0e0 rx=6, width=180, height=120
+                  contains simplified SVG sketch of what is being shown.
 
-## Arrows between panels
+### User flow (person interacts with a system/product)
+Layout: 3–4 panels showing sequential states.
+Left actor = human user. Right side = system represented as a terminal or UI block.
+Each panel shows: user action → system response.
+System "actor" has no figure — just a labeled box with rx=8.
+System box label: product name or "System" 11px font-weight=500 centered.
 
-When story flows left to right, add a small arrow between panels:
-  line from right edge of panel N to left edge of panel N+1
-  y = panel vertical center
-  stroke=#1a1a1a stroke-width=1 marker-end arrow
-  keep short: 8px line max, just a visual nudge
+### Code review / technical handoff
+Layout: 2–3 panels.
+Actors at laptops (typing pose).
+Replace or supplement bubbles with code snippet blocks (see bubbles.md).
+Code block floats to the side or above the actor, connected with a dashed leader line.
+Leader line: 0.5px dashed stroke=#cccccc from actor arm tip to code block edge.
 
-## Actor labels
+### Announcement / broadcast (one to many)
+Layout: 1–2 panels.
+Single actor centered or left, 2–3 receiver actors right.
+Sender has inverted bubble (peak moment — this is the announcement).
+Receivers have reaction bubbles or expressions only (no bubbles = silent reaction).
 
-Centered below each figure, 8px below feet.
-10px sans-serif fill=muted.
-Keep short: one word or a short role name.
-  Customer, Support, Engineer, PM, CEO, Service A, Auth API
+## What determines panel count
+
+| Story beats | Panels |
+|-------------|--------|
+| 1           | 1      |
+| 2–3         | 2      |
+| 3–5         | 3      |
+| 5–7         | 4      |
+| 7+          | split into 2 scenes, each max 4 panels |
+
+Always prefer fewer panels. Combine beats that happen simultaneously.
